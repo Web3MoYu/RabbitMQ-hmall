@@ -46,4 +46,21 @@ public class SpringRabbitListener {
     public void listenFanoutQueue2(String message) {
         log.info("监听到fanout.queue2的消息:{}", message);
     }
+
+    /**
+     * direct交换机  定向路由
+     * 每一个队列都与交换机设定一个或多个routingKey
+     * 发布者发布消息的时候，需要指定routingKey，该交换机机会按照routingKey发送给匹配的队列
+     * 如果routingKey一样那么就相当于fanout交换机
+     */
+
+    @RabbitListener(queues = "direct.queue1")
+    public void listenDirectQueue1(String message) {
+        log.info("监听到direct.queue1的消息:{}", message);
+    }
+
+    @RabbitListener(queues = "direct.queue2")
+    public void listenDirectQueue2(String message) {
+        log.info("监听到direct.queue2的消息:{}", message);
+    }
 }
