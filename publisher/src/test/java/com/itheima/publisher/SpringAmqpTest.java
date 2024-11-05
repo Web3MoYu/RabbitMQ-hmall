@@ -31,4 +31,14 @@ public class SpringAmqpTest {
         }
 
     }
+
+    @Test
+    // 将消息发送给fanout交换机
+    public void testFanoutExchange() {
+        String exchange = "hmall.fanout";
+        String message = "hello, every";
+        // 注意填写三个参数，第一个参数代表交换机，routingKey为空即可，否则就发送给队列了
+        rabbitTemplate.convertAndSend(exchange, "", message);
+
+    }
 }
