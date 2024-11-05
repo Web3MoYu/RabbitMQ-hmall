@@ -8,3 +8,6 @@ spring:
     virtual-host: /hmall
     username: hmall
     password: hmall
+    listener:
+      simple:
+        prefetch: 1 # 能者多劳模式

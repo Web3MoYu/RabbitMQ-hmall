@@ -14,10 +14,21 @@ public class SpringAmqpTest {
     RabbitTemplate rabbitTemplate;
 
     @Test
-    // 简单消息的监听
+    // 简单消息的发送
     public void testSimpleQueue() {
         String queueName = "simple.queue";
         String message = "hello, spring amqp!";
         rabbitTemplate.convertAndSend(queueName, message);
+    }
+
+    @Test
+    // workQueue
+    public void testWorkQueue() {
+        String queueName = "work.queue";
+        for (int i = 1; i <= 50; i++) {
+            String message = "hello, spring amqp_" + i;
+            rabbitTemplate.convertAndSend(queueName, message);
+        }
+
     }
 }
