@@ -48,6 +48,14 @@ public class SpringAmqpTest {
         String exchange = "hmall.direct";
         String message = "hello, every";
         rabbitTemplate.convertAndSend(exchange, "red", message);
+    }
+
+    @Test
+    // 将消息发送给topic交换机
+    public void testTopicExchange() {
+        String exchange = "hmall.topic";
+        String message = "hello, topic";
+        rabbitTemplate.convertAndSend(exchange, "www.news", message);
 
     }
 }

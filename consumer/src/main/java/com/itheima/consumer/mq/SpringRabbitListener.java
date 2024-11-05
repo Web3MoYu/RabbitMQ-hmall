@@ -63,4 +63,21 @@ public class SpringRabbitListener {
     public void listenDirectQueue2(String message) {
         log.info("监听到direct.queue2的消息:{}", message);
     }
+
+    /**
+     * topic交换机  主题交换机
+     * 也是根据routingKey做消息路由，但是routingKey通常是多个单词的组合，以.分割
+     * 并且RoutingKey可以使用通配符
+     * #：代表0个或多个单词
+     * *：代表一个单词
+     */
+    @RabbitListener(queues = "topic.queue1")
+    public void listenTopicQueue1(String message) {
+        log.info("监听到topic.queue1的消息:{}", message);
+    }
+
+    @RabbitListener(queues = "topic.queue2")
+    public void listenTopicQueue2(String message) {
+        log.info("监听到topic.queue2的消息:{}", message);
+    }
 }
