@@ -118,13 +118,23 @@ public class SpringRabbitListener {
         log.info("监听到topic.queue2的消息:{}", msg);
     }
 
-    // 监听私信交换机的队列
+    // 监听死信交换机的队列
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue("dlx.queue"),
             exchange = @Exchange("dlx.direct"),
             key = {"hi"}
     ))
     public void listenDeadLetterQueue(String msg) {
-        log.info("监听到topic.queue2的消息:{}", msg);
+        log.info("监听到dead-letter的消息:{}", msg);
+    }
+
+    // 监听延迟交换机的队列
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("delay.queue"),
+            exchange = @Exchange(value = "delay.direct", delayed = "true"),
+            key = {"hi"}
+    ))
+    public void listenDelayedQueue(String msg) {
+        log.info("监听到delay.queue的消息:{}", msg);
     }
 }
