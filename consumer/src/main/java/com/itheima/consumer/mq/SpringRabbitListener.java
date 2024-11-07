@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -101,5 +102,10 @@ public class SpringRabbitListener {
     ))
     public void listenTopicQueue2(String message) {
         log.info("监听到topic.queue2的消息:{}", message);
+    }
+
+    @RabbitListener(queues = "object.queue")
+    public void listenObjectQueue(Map<String, Object> msg) {
+        log.info("监听到topic.queue2的消息:{}", msg);
     }
 }
