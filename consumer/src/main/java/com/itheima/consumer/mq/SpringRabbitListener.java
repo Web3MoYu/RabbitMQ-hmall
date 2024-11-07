@@ -15,6 +15,12 @@ import java.util.Map;
 @Component
 public class SpringRabbitListener {
 
+    @RabbitListener(queues = "simple.queue")
+    public void listenSimpleQueue(String message) {
+        System.err.println("接收到消息：" + message + ", " + LocalTime.now());
+    }
+
+
     /**
      * WorkQueue(任务模型)：多个消费者绑定到一个队列
      * 当两个消费者绑定同一个队列，该消息只会被处理一次

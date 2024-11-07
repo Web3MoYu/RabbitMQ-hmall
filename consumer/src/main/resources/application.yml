@@ -11,3 +11,4 @@ spring:
     listener:
       simple:
         prefetch: 1 # 能者多劳模式
+        acknowledge-mode: auto # 交给AMQP自动处理  根据业务和消息转换自动处理ACK、NACK、REJECT
