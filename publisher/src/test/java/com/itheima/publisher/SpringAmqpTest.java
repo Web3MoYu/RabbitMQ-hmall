@@ -2,12 +2,16 @@ package com.itheima.publisher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -101,5 +105,16 @@ public class SpringAmqpTest {
         String msg = "ttttt";
         rabbitTemplate.convertAndSend(exchange, "blue", msg, cd);
         Thread.sleep(2000);
+    }
+
+    @Test
+    public void testSendMessage() {
+        // 默认都是持久的消息，需要自定义Message
+        Message build = MessageBuilder.withBody("hello, SpringAMQP".getBytes(StandardCharsets.UTF_8))
+                .setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT).build();
+        for (int i = 0; i < 1000000; i++) {
+            rabbitTemplate.convertAndSend("simple.queue", build);
+        }
+
     }
 }

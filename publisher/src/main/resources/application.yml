@@ -14,5 +14,5 @@ spring:
     template:
       retry:
         enabled: true
-    publisher-confirm-type: correlated
-    publisher-returns: true
+    publisher-confirm-type: none
+    publisher-returns: false
