@@ -117,4 +117,14 @@ public class SpringRabbitListener {
     public void listenObjectQueue(Map<String, Object> msg) {
         log.info("监听到topic.queue2的消息:{}", msg);
     }
+
+    // 监听私信交换机的队列
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("dlx.queue"),
+            exchange = @Exchange("dlx.direct"),
+            key = {"hi"}
+    ))
+    public void listenDeadLetterQueue(String msg) {
+        log.info("监听到topic.queue2的消息:{}", msg);
+    }
 }

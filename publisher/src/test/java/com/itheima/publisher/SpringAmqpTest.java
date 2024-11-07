@@ -115,6 +115,16 @@ public class SpringAmqpTest {
         for (int i = 0; i < 1000000; i++) {
             rabbitTemplate.convertAndSend("simple.queue", build);
         }
+    }
 
+    @Test
+    // 发送延迟消息
+    public void testSendDelayMessage() {
+        rabbitTemplate.convertAndSend("normal.direct", "hi",
+                "hello", message -> {
+                    // 设置过期时间
+                    message.getMessageProperties().setExpiration("10000");
+                    return message;
+                });
     }
 }
