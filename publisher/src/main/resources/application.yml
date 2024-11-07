@@ -10,9 +10,11 @@ spring:
     virtual-host: /test
     username: test
     password: test
+    # 生产者重试
     connection-timeout: 1s
     template:
       retry:
         enabled: true
+    # 生产者确认
     publisher-confirm-type: none
     publisher-returns: false

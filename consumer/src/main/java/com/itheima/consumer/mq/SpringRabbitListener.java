@@ -18,6 +18,7 @@ public class SpringRabbitListener {
     @RabbitListener(queues = "simple.queue")
     public void listenSimpleQueue(String message) {
         System.err.println("接收到消息：" + message + ", " + LocalTime.now());
+        throw new RuntimeException("故意");
     }
 
 
