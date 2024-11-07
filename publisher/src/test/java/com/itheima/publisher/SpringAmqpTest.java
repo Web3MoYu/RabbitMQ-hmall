@@ -1,14 +1,19 @@
 package com.itheima.publisher;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
+@Slf4j
 @SpringBootTest
 public class SpringAmqpTest {
 
@@ -68,5 +73,33 @@ public class SpringAmqpTest {
         msg.put("name", "jack");
         msg.put("age", 21);
         rabbitTemplate.convertAndSend(exchange, msg);
+    }
+
+    @Test
+    // 发送者确认
+    public void testConfirmCallback() throws InterruptedException {
+        // 0.创建correlationData
+        CorrelationData cd = new CorrelationData(UUID.randomUUID().toString()); // id要确保唯一性
+        cd.getFuture().addCallback(new ListenableFutureCallback<CorrelationData.Confirm>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("spring amqp 处理确认结果异常", ex);
+            }
+
+            @Override
+            public void onSuccess(CorrelationData.Confirm result) {
+                // 判断是否成功
+                if (result.isAck()) {
+                    log.debug("收到ConfirmCallBack ack: 消息发送成功");
+                } else {
+                    log.error("收到ConfirmCallBack nack: 消息发送失败：{}", result.getReason());
+                    // 消息重发
+                }
+            }
+        });
+        String exchange = "hmall.direct";
+        String msg = "ttttt";
+        rabbitTemplate.convertAndSend(exchange, "blue", msg, cd);
+        Thread.sleep(2000);
     }
 }
