@@ -20,17 +20,17 @@ public class SpringRabbitListener {
      * 当两个消费者绑定同一个队列，该消息只会被处理一次
      * 默认是轮询模式，不管谁处理的快还是慢都是均匀分配，需要配置prefetch才能改变
      */
-//    @RabbitListener(queues = "work.queue")
-//    public void listenWorkQueue1(String message) throws InterruptedException {
-//        System.out.println("消费者1接收到消息：" + message + ", " + LocalTime.now());
-//        Thread.sleep(25);
-//    }
-//
-//    @RabbitListener(queues = "work.queue")
-//    public void listenWorkQueue2(String message) throws InterruptedException {
-//        System.err.println("消费者2接收到消息：" + message + ", " + LocalTime.now());
-//        Thread.sleep(200);
-//    }
+    @RabbitListener(queues = "work.queue")
+    public void listenWorkQueue1(String message) throws InterruptedException {
+        System.out.println("消费者1接收到消息：" + message + ", " + LocalTime.now());
+        Thread.sleep(25);
+    }
+
+    @RabbitListener(queues = "work.queue")
+    public void listenWorkQueue2(String message) throws InterruptedException {
+        System.err.println("消费者2接收到消息：" + message + ", " + LocalTime.now());
+        Thread.sleep(200);
+    }
 
     /**
      * fanout交换机 广播交换机
